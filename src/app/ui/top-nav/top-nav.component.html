@@ -1,0 +1,44 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false">
+
+    <mat-nav-list>
+      <mat-list-item [routerLink]="['/home']">
+        <mat-icon>euro symbol icon</mat-icon>
+        Libri in vendita
+      </mat-list-item>
+      <mat-list-item [routerLink]="['/money']">
+        <mat-icon>book</mat-icon>
+        Transactions
+      </mat-list-item>
+      <mat-list-item [routerLink]="['/orders']">
+        <mat-icon>book</mat-icon>
+        Ebook Acquistati
+      </mat-list-item>
+      <mat-list-item [routerLink]="['/addBook']" *ngIf="owner">
+        <mat-icon>add</mat-icon>
+        Aggiungi libro
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+ <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+        <span>Book Store</span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button [routerLink]="['/account']">
+        <mat-icon>person</mat-icon>
+      </button>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
