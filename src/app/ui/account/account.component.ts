@@ -1,6 +1,5 @@
 import {ContractService} from "../../services/contract/contract.service";
-import {Component, OnInit} from "@angular/core";
-import {coerceStringArray} from "@angular/cdk/coercion";
+import {Component} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 
 /*import { ThreeBox } from "../../services/3box.service";
@@ -17,6 +16,7 @@ export class AccountComponent {
   direction: string;
   balance: string;
   orderList;
+  owner = false;
   //profile;
   //url;
   //data;
@@ -32,7 +32,7 @@ export class AccountComponent {
       .then(async (value: any) => {
         this.direction = value;
         this.getDetails(this.direction);
-        await this.getOrderList(this.direction);
+        this.owner = await this.contract.isOwner(this.direction);
         /* this.profile = this.threebox.getProfile(this.direction).then((response) => {
              console.log(response);
              this.profile = response;
@@ -41,9 +41,9 @@ export class AccountComponent {
          this.getImage(this.direction);*/
       })
       .catch((error: any) => {
-        this.contract.failure(
+        /*this.contract.failure(
           "Could't get the account data, please check if metamask is running correctly and refresh the page"
-        );
+        );*/
       });
   }
 
@@ -74,9 +74,9 @@ export class AccountComponent {
         this.getDetails(this.direction);
       })
       .catch((error: any) => {
-        this.contract.failure(
+        /*this.contract.failure(
           "Could't get the account data, please check if metamask is running correctly and refresh the page"
-        );
+        );*/
       });
   }
 
@@ -88,16 +88,10 @@ export class AccountComponent {
         this.balance = value;
       })
       .catch((error: any) => {
-        this.contract.failure(
+        /*this.contract.failure(
           "Could't get the account data, please check if metamask is running correctly and refresh the page"
-        );
+        );*/
       });
   }
 
-  async getOrderList(account) {
-    this.http.get("http://localhost:3000/api/books").subscribe((data) => {
-      console.log(data);
-    });
-    this.orderList = await this.contract.getBuyedBook(account);
-  }
 }

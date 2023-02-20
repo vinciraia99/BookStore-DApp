@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ContractService} from "../../services/contract/contract.service";
 import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
+import {WEB3} from "../../core/web3";
+import Web3 from "web3";
 
 @Component({
   selector: 'app-home',
@@ -11,35 +14,52 @@ export class HomeComponent implements OnInit {
   direction: string;
   balance: string;
   bookMockList: any;
+  contractCeck = false;
+  bookList;
+  viewList = new Array();
 
-  constructor(private http: HttpClient, private contract: ContractService) {
+  constructor(@Inject(WEB3) private web3: Web3, private router: Router, private http: HttpClient, private contract: ContractService) {
     this.getOrderList();
     this.contract
       .connectAccount()
       .then(async (value: any) => {
+        this.contractCeck = true;
         this.direction = value;
-        await this.getAllBookIntoContract();
+        await this.getBuyableBook();
+        console.log("BookMockList");
+        console.log(this.bookMockList);
+        console.log("bookList");
+        console.log(this.bookList);
+        console.log("viewList");
+        console.log(this.viewList);
       })
-      .catch((error: any) => {
-        this.contract.failure(
-          "Could't get the account data, please check if metamask is running correctly and refresh the page"
-        );
+      .catch(async (error: any) => {
+        console.error(error);
+        this.router.navigate(['/account'])
       });
   }
 
-  async getAllBookIntoContract(){
-    //this.bookList = await this.contract.getAllBookIntoContract();
+  async getBuyableBook() {
+    this.bookList = await this.contract.getAllBookIntoContract();
+    this.bookMockList.forEach(e => {
+      this.bookList.forEach(e2 => {
+        if (e.isbn == e2.isbn) {
+          e.price = this.web3.utils.fromWei(e.price, 'ether');
+          this.viewList.push(e);
+        }
+      })
+    })
+  }
+
+  getOrderList() {
+    this.http.get("http://localhost:3000/api/books").subscribe((data) => {
+      this.bookMockList = data;
+      this.bookMockList = this.bookMockList.books;
+    });
   }
 
   ngOnInit(): void {
   }
-  async getOrderList() {
-    this.http.get("http://localhost:3000/api/books").subscribe((data) => {
-      this.bookMockList = data;
-      this.bookMockList= this.bookMockList.books;
-    });
-  }
-
 
 
 }

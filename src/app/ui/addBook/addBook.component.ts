@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ContractService} from "../../services/contract/contract.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-home',
@@ -24,14 +24,12 @@ export class AddBookComponent implements OnInit {
       .then(async (value: any) => {
         this.direction = value;
         await this.isOwner(this.direction);
-        if(!this.owner){
-          await this.router.navigate(['/home'])
+        if (!this.owner) {
+          this.router.navigate(['/home'])
         }
-      });
-  }
-
-  navigateTo() {
-    window.open("https://metamask.io/");
+      }).catch((error: any) => {
+      this.router.navigate(['/account'])
+    });
   }
 
   async isOwner(user){
@@ -47,9 +45,8 @@ export class AddBookComponent implements OnInit {
 
   createForm() {
     this.formGroup = this.formBuilder.group({
-      'isbn': [null, [Validators.required,Validators.minLength(10), Validators.maxLength(10)]],
+      'isbn': [null, [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
       'name': [null, Validators.required],
-      'description': [null, Validators.required],
       'url': [null, Validators.required]
     });
   }
@@ -78,24 +75,22 @@ export class AddBookComponent implements OnInit {
       return 'ISBN is required';
     }
     const isbnValue = isbnFormControl.value as string;
-    if (isbnValue.length !== 10 && isbnValue.length !== 13) {
+    if (isbnValue.length !== 13) {
       return 'Invalid ISBN length';
     }
-    if (!/^\d+$/.test(isbnValue)) {
-      return 'ISBN should only contain digits';
-    }
-    const isbnChecksum = (isbnValue.length === 10) ?
-      (11 - Array.from(isbnValue).map(Number).map((n, i) => n * (10 - i)).reduce((a, b) => a + b, 0) % 11) % 11 :
-      Array.from(isbnValue).map(Number).slice(0, 12).map((n, i) => n * ((i % 2 === 0) ? 1 : 3)).reduce((a, b) => a + b, 0) % 10;
-    if (isbnChecksum !== Number(isbnValue.charAt(isbnValue.length - 1))) {
-      return 'Invalid ISBN checksum';
-    }
-    return '';
   }
 
-  onSubmit(post) {
+  async onSubmit(post) {
     console.log(post);
     this.post = post;
+    if (await this.contract.addBook("1234567890120", 4000, this.direction)) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Successo',
+        text: "Libro aggiunto!",
+      })
+    }
+
   }
 
 }

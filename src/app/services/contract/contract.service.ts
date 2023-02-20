@@ -1,18 +1,17 @@
 import {Inject, Injectable} from '@angular/core';
-import { WEB3 } from '../../core/web3';
+import {WEB3} from '../../core/web3';
 //import contract from 'truffle-contract'; //acceso a libreria deprecada
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject } from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Subject} from 'rxjs';
 import Swal from 'sweetalert2'
+import BigNumber from 'bignumber.js';
 
 import Web3 from 'web3';
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import contract from "@truffle/contract";
-import {error} from "protractor";
 
 declare let require: any;
-const tokenAbi = require('../../../../Blockchain/build/contracts/EBookStoreToken.json');
+const tokenAbi = require('../../../../Blockchain/build/contracts/EBookStoreFinal.json');
 declare let window: any;
 
 @Injectable({
@@ -109,7 +108,6 @@ export class ContractService {
           return instance.getBuyerEbooks2({
             from: originAccount[0]
           }).then((status)=>{
-            debugger;
             console.log(status);
           }
           );
@@ -149,14 +147,31 @@ export class ContractService {
     let result = await paymentContract.deployed().then((instance) => {
       return instance.isOwner({
         from: originAccount[0]
-      }).then((status)=>status).catch(error => {
+      }).then((status) => status).catch(error => {
         let json = this.jsonParse(error.message);
-        this.failure(json.message)});
+        this.failure(json.message)
+      });
     });
     return result;
   }
 
-  private jsonParse(jsontext : string){
+  async addBook(isbn, price, originAccount) {
+    let resultflag = false;
+    var contract = require("@truffle/contract"); // acceso a nueva version de libreria
+    const paymentContract = contract(tokenAbi);
+    paymentContract.setProvider(this.provider);
+    let result = await paymentContract.deployed().then((instance) => {
+      let prices = (new BigNumber(price)).toString()
+      return instance.addEBook(price, isbn, {
+        from: originAccount[0]
+      }).then((status) => resultflag = true).catch(error => {
+        this.failure(error.message)
+      });
+    });
+    return resultflag;
+  }
+
+  private jsonParse(jsontext: string) {
     return JSON.parse(jsontext.slice(24, jsontext.length));
   }
 

@@ -1,11 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
-import { ContractService } from "src/app/services/contract/contract.service";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators,} from "@angular/forms";
+import {ContractService} from "src/app/services/contract/contract.service";
 
 @Component({
   selector: "app-transaction",
@@ -32,9 +27,7 @@ export class TransactionComponent implements OnInit {
       })
       .catch((error: any) => {
         console.log(error);
-        contract.failure(
-          "Could't get the account data, please check if metamask is running correctly and refresh the page"
-        );
+        //contract.failure("Could't get the account data, please check if metamask is running correctly and refresh the page");
       });
   }
 

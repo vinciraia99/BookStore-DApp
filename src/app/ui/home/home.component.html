@@ -1,14 +1,17 @@
 <div class="body">
   <div class="content">
     <div fxLayout="row wrap">
-      <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let bookElement of bookMockList">
-        <mat-card class="mat-elevation-z4" >
+      <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let bookElement of viewList">
+        <mat-card class="mat-elevation-z4">
           <mat-card-header>
             <mat-card-title>{{bookElement.title}}</mat-card-title>
           </mat-card-header>
           <img mat-card-image src="{{bookElement.img}}">
           <mat-card-content>
             <p>Prezzo : {{bookElement.price}} ETH</p>
+          </mat-card-content>
+          <mat-card-content>
+            <p>ISBN : {{bookElement.isbn}}</p>
           </mat-card-content>
           <mat-card-actions>
             <button mat-button>ACQUISTA</button>

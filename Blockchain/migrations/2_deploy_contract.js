@@ -1,5 +1,5 @@
-const ES = artifacts.require("EBookStoreToken");
+const eBookStore = artifacts.require("EBookStoreFinal");
 
 module.exports = function(deployer) {
-  deployer.deploy(ES, "EbookToken","ET");
+  deployer.deploy(eBookStore);
 };
