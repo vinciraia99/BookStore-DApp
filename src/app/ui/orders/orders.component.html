@@ -1,0 +1,33 @@
+<div class="body">
+  <div *ngIf="direction !== undefined">
+    <mat-card>
+      <h1>eBook acquistati</h1>
+    </mat-card>
+    <div *ngIf="viewList.length >0">
+      <div *ngFor="let item of viewList;">
+        <br>
+        <mat-card class="home-card">
+          <mat-card-content class="home-card-content">
+            <img style="padding-top: 30px;max-width: 400px" mat-card-image
+                 src="{{item.img}}">
+            <div>
+              <mat-card-title>{{item.title}}</mat-card-title>
+              <mat-card-subtitle>ISBN: {{item.isbn}}</mat-card-subtitle>
+              <mat-card-content style="text-align: left">Prezzo: {{item.price}} ETH</mat-card-content>
+              <mat-card-content style="text-align: left">Acqistato in data!</mat-card-content>
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-button onclick='alert("Lettura in corso...")'>Leggi il libro</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+    <div *ngIf="viewList.length ==0">
+      <br>
+      <mat-card>
+        <h2>Non ci sono eBook da te acquistati!</h2>
+      </mat-card>
+    </div>
+  </div>
+</div>

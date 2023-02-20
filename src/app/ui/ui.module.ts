@@ -20,6 +20,7 @@ import {RouterModule} from "@angular/router";
 import {ContractService} from "../services/contract/contract.service";
 import {ThreeBox} from "../services/3box.service"
 import {ContractNotFoundComponent} from "./contractNotFound/contractnotfound.component";
+import {OrdersComponent} from "./orders/orders.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {ContractNotFoundComponent} from "./contractNotFound/contractnotfound.com
     AddBookComponent,
     TransactionComponent,
     ErrorComponent,
-    ContractNotFoundComponent
+    ContractNotFoundComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,

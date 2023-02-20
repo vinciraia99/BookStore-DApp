@@ -1,34 +1,44 @@
-import {Component, Inject, OnInit} from '@angular/core';
 import {ContractService} from "../../services/contract/contract.service";
+import {Component, Inject, ViewEncapsulation} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {WEB3} from "../../core/web3";
 import Web3 from "web3";
-import Swal from "sweetalert2";
+
+/*import { ThreeBox } from "../../services/3box.service";
+import { DomSanitizer } from "@angular/platform-browser";
+import { Identicon } from "../../services/identicon";
+import { Md5 } from "ts-md5/dist/md5";*/
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-account",
+  templateUrl: "./orders.component.html",
+  styleUrls: ["./orders.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit {
+export class OrdersComponent {
   direction: string;
   balance: string;
+  orderList;
+  owner = false;
+  //profile;
+  //url;
+  //data;
+  private bookList: any;
   private bookMockList: any;
-  contractCeck = false;
-  private bookList;
   viewList = new Array();
   private bookBuyedList: any;
-  owner = false;
 
-  constructor(@Inject(WEB3) private web3: Web3, private router: Router, private http: HttpClient, private contract: ContractService) {
-    this.getOrderList();
+  constructor(
+    private contract: ContractService,
+    private http: HttpClient,
+    @Inject(WEB3) private web3: Web3
+  ) {
     this.contract
       .connectAccount()
       .then(async (value: any) => {
-        this.contractCeck = true;
         this.direction = value;
         this.owner = await this.contract.isOwner(this.direction);
+        await this.getOrderList();
         await this.getBuyedUserBook();
         await this.getBuyableBook();
         console.log("BookMockList");
@@ -38,9 +48,8 @@ export class HomeComponent implements OnInit {
         console.log("viewList");
         console.log(this.viewList);
       })
-      .catch(async (error: any) => {
+      .catch((error: any) => {
         console.error(error);
-        this.router.navigate(['/account'])
       });
   }
 
@@ -49,7 +58,7 @@ export class HomeComponent implements OnInit {
     this.bookMockList.forEach(e => {
       this.bookList.forEach(e2 => {
         if (e.isbn == e2.isbn) {
-          if (!this.checkBookIsBuyed(e2.isbn)) {
+          if (this.checkBookIsBuyed(e2.isbn)) {
             e.price = this.web3.utils.fromWei(e2.price, 'ether');
             if (!this.checkIfIsPresent(e.isbn)) this.viewList.push(e);
           }
@@ -92,22 +101,5 @@ export class HomeComponent implements OnInit {
       this.bookMockList = this.bookMockList.books;
     });
   }
-
-  ngOnInit(): void {
-  }
-
-  async buyBook(isbn, price) {
-    let flag = await this.contract.buyBook(isbn, price, this.direction);
-    if (flag) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Libro acquistato!',
-        text: "Lo trovi nella sezione eBook Acquistati",
-      }).then(status => {
-        window.location.reload();
-      });
-    }
-  }
-
 
 }

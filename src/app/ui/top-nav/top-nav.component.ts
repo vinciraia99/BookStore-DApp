@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 import {ContractService} from "../../services/contract/contract.service";
 
 @Component({
@@ -14,7 +14,7 @@ export class TopNavComponent implements OnInit {
 
   menuItems = ['Home', 'Transaction'];
   private direction: any;
-  owner: Boolean;
+  owner = false;
 
   ngOnInit(): void {
   }

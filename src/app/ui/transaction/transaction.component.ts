@@ -5,7 +5,7 @@ import {ContractService} from "src/app/services/contract/contract.service";
 @Component({
   selector: "app-transaction",
   templateUrl: "./transaction.component.html",
-  styleUrls: ["./transaction.component.scss"],
+  styleUrls: ["./transaction.component.scss"]
 })
 export class TransactionComponent implements OnInit {
   address: string;

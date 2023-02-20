@@ -4,7 +4,6 @@ import {WEB3} from '../../core/web3';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Subject} from 'rxjs';
 import Swal from 'sweetalert2'
-import BigNumber from 'bignumber.js';
 
 import Web3 from 'web3';
 import Web3Modal from "web3modal";
@@ -123,9 +122,9 @@ export class ContractService {
     const paymentContract = contract(tokenAbi);
     paymentContract.setProvider(this.provider);
     let result = await paymentContract.deployed().then((instance) => {
-      return instance.getBuyerEbooks2({
+      return instance.getPurchasedEBooks({
         from: originAccount[0]
-      }).then((status)=>status);
+      }).then((status) => status);
     });
     return result;
   }
@@ -161,8 +160,8 @@ export class ContractService {
     const paymentContract = contract(tokenAbi);
     paymentContract.setProvider(this.provider);
     let result = await paymentContract.deployed().then((instance) => {
-      let prices = (new BigNumber(price)).toString()
-      return instance.addEBook(price, isbn, {
+      let prices = Web3.utils.toWei(price, 'ether')
+      return instance.addEBook(prices, isbn, {
         from: originAccount[0]
       }).then((status) => resultflag = true).catch(error => {
         this.failure(error.message)
@@ -170,6 +169,23 @@ export class ContractService {
     });
     return resultflag;
   }
+
+  async buyBook(isbn, price, originAccount) {
+    let resultflag = false;
+    var contract = require("@truffle/contract"); // acceso a nueva version de libreria
+    const paymentContract = contract(tokenAbi);
+    paymentContract.setProvider(this.provider);
+    let result = await paymentContract.deployed().then((instance) => {
+      return instance.buyEBook(isbn, {
+        from: originAccount[0],
+        value: Web3.utils.toWei(price, 'ether')
+      }).then((status) => resultflag = true).catch(error => {
+        this.failure(error.message)
+      });
+    });
+    return resultflag;
+  }
+
 
   private jsonParse(jsontext: string) {
     return JSON.parse(jsontext.slice(24, jsontext.length));

@@ -83,7 +83,7 @@ export class AddBookComponent implements OnInit {
   async onSubmit(post) {
     console.log(post);
     this.post = post;
-    if (await this.contract.addBook("1234567890120", 4000, this.direction)) {
+    if (await this.contract.addBook("9788820077874", "0.04", this.direction)) {
       Swal.fire({
         icon: 'success',
         title: 'Successo',

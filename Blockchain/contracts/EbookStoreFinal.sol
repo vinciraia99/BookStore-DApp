@@ -28,7 +28,7 @@ contract EBookStoreFinal {
 
   function addEBook(uint256 price, string memory isbn) public {
     require(isOwner(), "Non sei il proprietario del contratto");
-    require(utfStringLength(isbn) == 13, "ISBN non valido");
+    require(bytes(isbn).length == 13, "ISBN non valido");
     require(ebookNelContratto[isbn].price == 0, "Ebook gia' presente nel contratto");
     Ebook memory ebook = Ebook(price, isbn);
     ebookNelContratto[isbn] = ebook;
@@ -38,8 +38,7 @@ contract EBookStoreFinal {
   //TODO: Acquistare tramite ISBN!
   function buyEBook(string memory isbn) public payable {
     require(!isOwner(), "Sei il proprietario del contratto, non puoi acquistare libri");
-    require(utfStringLength(isbn) == 13, "ISBN non valido");
-    require(msg.value == ebookNelContratto[isbn].price, "Saldo insufficiente per l'acquisto");
+    require(msg.value <= ebookNelContratto[isbn].price, "Saldo insufficiente per l'acquisto");
     EbookBuyed[] memory ebooks = ebookAcquistati[msg.sender];
     bool giaAcquistato = false;
     for (uint256 i = 0; i < ebooks.length; i++) {
@@ -73,27 +72,6 @@ contract EBookStoreFinal {
     require(isOwner(), "Non sei il proprietario del contratto");
     (bool success,) = seller.call{value : amount}("");
     require(success, "Trasferimento fallito");
-  }
-
-  function utfStringLength(string memory str) pure private returns (uint length) {
-    uint i = 0;
-    bytes memory string_rep = bytes(str);
-
-    while (i < string_rep.length)
-    {
-      if (string_rep[i] >> 7 == 0)
-        i += 1;
-      else if (string_rep[i] >> 5 == bytes1(uint8(0x6)))
-        i += 2;
-      else if (string_rep[i] >> 4 == bytes1(uint8(0xE)))
-        i += 3;
-      else if (string_rep[i] >> 3 == bytes1(uint8(0x1E)))
-        i += 4;
-      else
-        i += 1;
-
-      length++;
-    }
   }
 
   function getContractBalance() public view returns (uint){
