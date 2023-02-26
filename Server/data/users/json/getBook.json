@@ -1,17 +1,40 @@
 {
-    "books": [
-      {
-        "isbn": "9788820077874",
-        "title": "Never2 never. Non dimenticare mai di ricordarti di me",
-        "price": "8425569239043100",
-        "img": "https://www.mondadoristore.it/img/Never-never-Non-dimenticare-Colleen-Hoover-tarryn-fisher/ea978882007787/BL/BL/63/NZO/?tit=Never+never.+Non+dimenticare+mai+di+ricordarti+di+me&aut=Colleen+Hoover"
-      },
-      {
-        "isbn": "1234567890123",
-        "title": "Libro di test",
-        "price": "6425569239043100",
-        "img": "https://www.mondadoristore.it/img/Never-never-Non-dimenticare-Colleen-Hoover-tarryn-fisher/ea978882007787/BL/BL/63/NZO/?tit=Never+never.+Non+dimenticare+mai+di+ricordarti+di+me&aut=Colleen+Hoover"
-      }
-    ]
-
+  "books": [
+    {
+      "isbn": "9788820077874",
+      "title": "Never2 never. Non dimenticare mai di ricordarti di me",
+      "price": "8425569239043100",
+      "img": "https://www.mondadoristore.it/img/Never-never-Non-dimenticare-Colleen-Hoover-tarryn-fisher/ea978882007787/BL/BL/63/NZO/?tit=Never+never.+Non+dimenticare+mai+di+ricordarti+di+me&aut=Colleen+Hoover"
+    },
+    {
+      "isbn": "1234567890123",
+      "title": "Libro di test",
+      "price": "6425569239043100",
+      "img": "https://kbimages1-a.akamaihd.net/5e5f6902-10d0-4c55-bc45-c5dd943d594e/353/569/90/False/6-mock-exams-for-the-bocconi-test.jpg"
+    },
+    {
+      "isbn": "9788806235558",
+      "title": "L’arte della gioia",
+      "price": "1025569239043100",
+      "img": "https://www.mondadoristore.it/img/L-arte-della-gioia-Goliarda-Sapienza/ea978880623555/BL/BL/63/NZO/?tit=L%27arte+della+gioia&aut=Goliarda+Sapienza"
+    },
+    {
+      "isbn": "9788811608434",
+      "title": "Il signore degli anelli. Ediz. illustrata",
+      "price": "1525569239043100",
+      "img": "https://www.mondadoristore.it/img/Il-signore-degli-anelli-Ediz-J-R-R-Tolkien/ea978881160843/BL/BL/63/NZO/?tit=Il+signore+degli+anelli.+Ediz.+illustrata&aut=J.+R.+R.+Tolkien"
+    },
+    {
+      "isbn": "9788804668698",
+      "title": "Le guide del tramonto",
+      "price": "1490",
+      "img": "https://www.mondadoristore.it/img/Le-guide-del-tramonto-Arthur-C-Clarke/ea978880466869/BL/BL/63/NZO/?tit=Le+guide+del+tramonto&aut=Arthur+C.+Clarke"
+    },
+    {
+      "isbn": "9788806222084",
+      "title": "Il condominio",
+      "price": "990",
+      "img": "https://www.mondadoristore.it/img/Il-condominio-J-G-Ballard/ea978880622208/BL/BL/63/NZO/?tit=Il+condominio&aut=J.+G.+Ballard"
+    }
+  ]
 }

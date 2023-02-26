@@ -5,12 +5,6 @@
       <br>
       <div style="text-align:center">
         <section class="header">
-          <!--
-          <img *ngIf="!url" [src]="data" class="profile" />
-          <img  *ngIf="url"src='https://ipfs.infura.io/ipfs/{{ url }}'class="profileInfura" />
-         <h4 *ngIf="profile"> Welcome {{ profile.name }}   </h4>
-         <h6 *ngIf="profile">{{ profile.emoji }}</h6>
-          -->
           <h4>Il tuo indirizzo è: {{ direction }} </h4>
           <h4>Il tuo saldo è: {{ balance }} ETH</h4>
         </section>
@@ -18,42 +12,28 @@
     </mat-card>
     <br>
     <mat-card class="account" *ngIf="owner">
-      Bro
+      <h4>Il saldo del contratto è: {{ balanceContract }} ETH</h4>
+      <mat-card-actions align="end">
+        <button mat-button (click)="preleva()">Preleva tutto</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div *ngIf="direction == undefined">
+
+    <mat-card class="account">
+
+      <div style="text-align:center">
+        <section class="header">
+          <h1>Non sei connesso!</h1>
+          <h3> Fare clic su Connetti account per connettere il fornitore del portafoglio </h3>
+          <button mat-raised-button color="accent" class="big-round-shape-button" (click)="connectAccount()"> Connetti
+            account
+          </button>
+          &nbsp;
+        </section>
+      </div>
+
     </mat-card>
 
-    <h1>Ordini effettuati</h1>
-    <div *ngFor="let item of orderList;">
-      <br>
-      <mat-card class="order-list">
-        <mat-card-header>
-          <mat-icon>more_vert</mat-icon>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{item.isbn}}</mat-card-title>
-          <mat-card-subtitle>{{item.price}}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions align="end">
-          <button mat-button onclick='alert("Lettura in corso...")'>Leggi il libro</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
   </div>
-</div>
-<div class="body" *ngIf="direction == undefined">
-
-  <mat-card class="account">
-
-    <div style="text-align:center">
-      <section class="header">
-        <h1>Non sei connesso!</h1>
-        <h3> Fare clic su Connetti account per connettere il fornitore del portafoglio </h3>
-        <button mat-raised-button color="accent" class="big-round-shape-button" (click)="connectAccount()"> Connetti
-          account
-        </button>
-        &nbsp;
-      </section>
-    </div>
-
-  </mat-card>
-
-
 </div>

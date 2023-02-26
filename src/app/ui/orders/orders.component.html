@@ -14,7 +14,8 @@
               <mat-card-title>{{item.title}}</mat-card-title>
               <mat-card-subtitle>ISBN: {{item.isbn}}</mat-card-subtitle>
               <mat-card-content style="text-align: left">Prezzo: {{item.price}} ETH</mat-card-content>
-              <mat-card-content style="text-align: left">Acqistato in data!</mat-card-content>
+              <mat-card-content
+                style="text-align: left">{{convertEpochToItalianDateString(item.isbn)}}</mat-card-content>
             </div>
           </mat-card-content>
           <mat-card-actions align="end">

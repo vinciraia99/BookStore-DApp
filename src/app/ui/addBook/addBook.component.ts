@@ -47,7 +47,8 @@ export class AddBookComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       'isbn': [null, [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
       'name': [null, Validators.required],
-      'url': [null, Validators.required]
+      'url': [null, Validators.required],
+      'price': [null, [Validators.required, Validators.pattern(/^\d+$/)]]
     });
   }
 
@@ -83,12 +84,13 @@ export class AddBookComponent implements OnInit {
   async onSubmit(post) {
     console.log(post);
     this.post = post;
-    if (await this.contract.addBook("9788820077874", "0.04", this.direction)) {
+    debugger;
+    if (await this.contract.addBook(post.isbn, post.price, this.direction)) {
       Swal.fire({
         icon: 'success',
         title: 'Successo',
         text: "Libro aggiunto!",
-      })
+      }).then(status => this.router.navigate(['/home']))
     }
 
   }

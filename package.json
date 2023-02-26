@@ -1,5 +1,5 @@
 {
-  "name": "angulartruffledapp",
+  "name": "eBookStoreDapp",
   "version": "0.0.0",
   "scripts": {
     "mock:server": "nodemon Server/server.js --ext js,ts,json,html",

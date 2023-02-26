@@ -10,7 +10,7 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 declare let require: any;
-const tokenAbi = require('../../../../Blockchain/build/contracts/EBookStoreFinal.json');
+const tokenAbi = require('../../../../Blockchain/build/contracts/EBookStore.json');
 declare let window: any;
 
 @Injectable({
@@ -154,13 +154,24 @@ export class ContractService {
     return result;
   }
 
+  async getBalanceContract(originAccount) {
+    var contract = require("@truffle/contract"); // acceso a nueva version de libreria
+    const paymentContract = contract(tokenAbi);
+    paymentContract.setProvider(this.provider);
+    let result = await paymentContract.deployed().then((instance) => {
+      return instance.getContractBalance().then((status) => status);
+    });
+    return this.web3js.utils.fromWei(result.words.join(''), 'ether');
+    ;
+  }
+
   async addBook(isbn, price, originAccount) {
     let resultflag = false;
     var contract = require("@truffle/contract"); // acceso a nueva version de libreria
     const paymentContract = contract(tokenAbi);
     paymentContract.setProvider(this.provider);
     let result = await paymentContract.deployed().then((instance) => {
-      let prices = Web3.utils.toWei(price, 'ether')
+      let prices = price
       return instance.addEBook(prices, isbn, {
         from: originAccount[0]
       }).then((status) => resultflag = true).catch(error => {
@@ -179,6 +190,22 @@ export class ContractService {
       return instance.buyEBook(isbn, {
         from: originAccount[0],
         value: Web3.utils.toWei(price, 'ether')
+      }).then((status) => resultflag = true).catch(error => {
+        this.failure(error.message)
+      });
+    });
+    return resultflag;
+  }
+
+
+  async withDraw(originAccount) {
+    let resultflag = false;
+    var contract = require("@truffle/contract"); // acceso a nueva version de libreria
+    const paymentContract = contract(tokenAbi);
+    paymentContract.setProvider(this.provider);
+    let result = await paymentContract.deployed().then((instance) => {
+      return instance.withdrawAll({
+        from: originAccount[0]
       }).then((status) => resultflag = true).catch(error => {
         this.failure(error.message)
       });
