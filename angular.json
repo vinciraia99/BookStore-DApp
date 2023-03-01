@@ -23,7 +23,7 @@
             "customWebpackConfig": {
                 "path": "./custom-webpack.config.js"
              },
-            "outputPath": "dist/BookStoreDapp",
+            "outputPath": "dist/BookStoreDApp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

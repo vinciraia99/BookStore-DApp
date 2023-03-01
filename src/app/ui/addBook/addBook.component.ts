@@ -89,7 +89,7 @@ export class AddBookComponent implements OnInit {
       Swal.fire({
         icon: 'success',
         title: 'Successo',
-        text: "Libro aggiunto!",
+        text: "eBook aggiunto!",
       }).then(status => this.router.navigate(['/home']))
     }
 

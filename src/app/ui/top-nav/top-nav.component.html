@@ -6,16 +6,16 @@
 
     <mat-nav-list>
       <mat-list-item [routerLink]="['/home']">
-        <mat-icon>euro symbol icon</mat-icon>
-        Libri in vendita
+        <mat-icon>store</mat-icon>
+        eBook in vendita
       </mat-list-item>
       <mat-list-item [routerLink]="['/orders']" *ngIf="owner == false">
         <mat-icon>book</mat-icon>
-        Ebook Acquistati
+        eBook Acquistati
       </mat-list-item>
       <mat-list-item [routerLink]="['/addBook']" *ngIf="owner">
         <mat-icon>add</mat-icon>
-        Aggiungi libro
+        Aggiungi eBook
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>

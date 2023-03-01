@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
     if (flag) {
       Swal.fire({
         icon: 'success',
-        title: 'Libro acquistato!',
+        title: 'eBook acquistato!',
         text: "Lo trovi nella sezione eBook Acquistati",
       }).then(status => {
         window.location.reload();

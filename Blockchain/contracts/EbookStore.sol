@@ -15,14 +15,16 @@ contract EBookStore {
   }
 
   Ebook[] private ebookNelContrattolist;
-  mapping(address => EbookBuyed[]) private ebookAcquistati;
+  mapping(address => EbookBuyed[]) private ebookAcquistatiList;
+  mapping(address => mapping(string => EbookBuyed)) private ebookAcquistati;
   mapping(string => Ebook) private ebookNelContratto;
 
-  address private seller;
+  address private seller; //Rendi immutabile
   uint256 private balance;
 
   constructor() {
     seller = msg.sender;
+    //Rimuovi i mock!
     addEBook(8425569239043100, "9788820077874");
     addEBook(1025569239043100, "9788806235558");
     addEBook(1525569239043100, "9788811608434");
@@ -32,38 +34,29 @@ contract EBookStore {
 
   function addEBook(uint256 price, string memory isbn) public {
     require(isOwner(), "Non sei il proprietario del contratto");
-    require(bytes(isbn).length == 13, "ISBN non valido");
     require(ebookNelContratto[isbn].price == 0, "Ebook gia' presente nel contratto");
+    require(bytes(isbn).length == 13, "ISBN non valido");
     Ebook memory ebook = Ebook(price, isbn);
     ebookNelContratto[isbn] = ebook;
     ebookNelContrattolist.push(ebook);
   }
 
-  function buyEBook(string memory isbn) public payable {
+  function buyEBook(string memory isbn) external payable {
     require(!isOwner(), "Sei il proprietario del contratto, non puoi acquistare libri");
+    require(ebookNelContratto[isbn].price != 0, "Ebook non presente nel contratto");
     require(msg.value == ebookNelContratto[isbn].price, "Saldo insufficiente per l'acquisto");
-    EbookBuyed[] memory ebooks = ebookAcquistati[msg.sender];
-    bool giaAcquistato = false;
-    for (uint256 i = 0; i < ebooks.length; i++) {
-      if (bytes(isbn).length != bytes(ebooks[i].isbn).length) {
-        continue;
-      }
-      if (keccak256(abi.encodePacked(isbn)) == keccak256(abi.encodePacked(ebooks[i].isbn))) {
-        giaAcquistato = true;
-        break;
-      }
-    }
-    require(!giaAcquistato, "Ebook gia' acquistato");
-    EbookBuyed memory ebookcomprato = EbookBuyed(msg.value, isbn, block.timestamp, msg.sender);
-    ebookAcquistati[msg.sender].push(ebookcomprato);
+    require(ebookAcquistati[msg.sender][isbn].price == 0, "Ebook gia' acquistato");
+    EbookBuyed memory ebookComprato = EbookBuyed(msg.value, isbn, block.timestamp, msg.sender);
+    ebookAcquistatiList[msg.sender].push(ebookComprato);
+    ebookAcquistati[msg.sender][isbn] = ebookComprato;
     balance += msg.value;
   }
 
-  function getPurchasedEBooks() public view returns (EbookBuyed[] memory) {
-    return ebookAcquistati[msg.sender];
+  function getPurchasedEBooks() external view returns (EbookBuyed[] memory) {
+    return ebookAcquistatiList[msg.sender];
   }
 
-  function getAllEBooks() public view returns (Ebook[] memory) {
+  function getAllEBooks() external view returns (Ebook[] memory) {
     return ebookNelContrattolist;
   }
 
@@ -71,7 +64,7 @@ contract EBookStore {
     return msg.sender == seller;
   }
 
-  function withdrawAll() public {
+  function withdrawAll() external {
     require(isOwner(), "Non sei il proprietario del contratto");
     require(balance != 0, "Non ci sono fondi da prelevare");
     (bool success,) = seller.call{value : balance}("");
@@ -79,7 +72,7 @@ contract EBookStore {
     balance = 0;
   }
 
-  function getContractBalance() public view returns (uint){
+  function getContractBalance() external view returns (uint){
     require(isOwner(), "Non sei il proprietario del contratto");
     return balance;
   }

@@ -8,8 +8,14 @@
     },
     {
       "isbn": "1234567890123",
-      "title": "Libro di test",
-      "price": "6425569239043100",
+      "title": "Libro di prova",
+      "price": "8000",
+      "img": "https://kbimages1-a.akamaihd.net/5e5f6902-10d0-4c55-bc45-c5dd943d594e/353/569/90/False/6-mock-exams-for-the-bocconi-test.jpg"
+    },
+    {
+      "isbn": "0123456789012",
+      "title": "Libro di prova",
+      "price": "6000",
       "img": "https://kbimages1-a.akamaihd.net/5e5f6902-10d0-4c55-bc45-c5dd943d594e/353/569/90/False/6-mock-exams-for-the-bocconi-test.jpg"
     },
     {
