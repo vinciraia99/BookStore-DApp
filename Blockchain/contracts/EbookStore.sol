@@ -24,12 +24,6 @@ contract EBookStore {
 
   constructor() {
     seller = msg.sender;
-    //Rimuovi i mock!
-    addEBook(8425569239043100, "9788820077874");
-    addEBook(1025569239043100, "9788806235558");
-    addEBook(1525569239043100, "9788811608434");
-    addEBook(6425569239043100, "9788804668698");
-    addEBook(5425569239043100, "9788806222084");
   }
 
   function addEBook(uint256 price, string memory isbn) public {
