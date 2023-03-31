@@ -1,3 +1,3 @@
 # BookStoreDapp 
 
-Proggetto per sicurezza dei dati
+Progetto per sicurezza dei dati
